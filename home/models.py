@@ -22,6 +22,7 @@ class Subcategory(models.Model):
     image = models.TextField()
     labels=models.CharField(max_length=300,choices=LABELS)
     category = models.ForeignKey(Category,on_delete=models.CASCADE,default=1)
+    status= models.CharField(max_length=200, choices=STATUS,blank=True)
 
 
     def __str__(self):
