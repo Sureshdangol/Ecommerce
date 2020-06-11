@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic import View
+from django.shortcuts import render,redirect
+from django.views.generic import View, DetailView
 from .models import *  #import all models classes with * sign
 
 # Create your views here.
@@ -23,7 +23,26 @@ class HomeView(BaseView):
         return render(self.request,'index.html',self.view)
 
 
+class ItemDetailView(DetailView):
+    model = 'Item'
+    template_name ='single.html'
 
+
+class SubCategory(BaseView):
+    def get(self,id):
+        self.view['subcat_items'] = Items.objects.filter(subcategory_id = id)#1slug  value from database and other from
+        return render(self.request, 'kitchen.html', self.view)
+
+
+
+class SearchView(BaseView):
+    def get(self,request):
+        query=request.GET.get('query',None)
+        if not query:
+            return redirect('/')
+
+        self.view['search_query']=Items.objects.filter(title__icontains = query)
+        return  render(request,'search_product.html',self.view)
 
 
 

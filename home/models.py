@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+
 STATUS = (('active','Active'),('inactive','Inactive'),('','Default'))
 STOCK=(('In stock','In stock'),('Out of Stock','Out of Stock'))
 LABELS=(('special','special'),('','Non special'))
@@ -28,6 +30,10 @@ class Subcategory(models.Model):
     def __str__(self):
         return self.title
 
+    def get_subcat_url(self):
+        return  reverse( "home:subcategory",kwargs={id:self.id}
+        )
+
     #added a comment
 
 
@@ -49,6 +55,9 @@ class Items(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_item_url(self):
+        return reverse("home:product",kwargs={'slug':self.slug})
 
 
 class slider(models.Model):
