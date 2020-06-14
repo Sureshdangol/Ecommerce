@@ -1,4 +1,8 @@
+from django.contrib import messages
+from django.contrib.auth.models import User
 from django.shortcuts import render,redirect
+
+
 from django.views.generic import View, DetailView
 from .models import *  #import all models classes with * sign
 
@@ -46,5 +50,38 @@ class SearchView(BaseView):
 
 
 
+def signup(request):
+    if request.method =='POST':
+        username=request.POST['username']
+        email=request.POST['email']
+        password = request.POST['password']
+        cpassword = request.POST['confirm Password']
+
+        if password == cpassword:
+            if User.objects.filter(username=username).exists():  #User and exists are django fucntion exists it checks the name is on db or not
+                messages.error(request,'The username already exists')
+                return render(request,'register.html')
+
+            elif User.objects.filter(email=email).exists():  #User and exists are django fucntion exists it checks the name is on db or not
+                messages.error(request,'The email already exists')
+                return redirect('/signup')
+
+            else:
+                user = User.objects.create_user(
+                    username = username,
+                    email = email,
+                    password = password
+
+                )
+
+                user.save()
+                messages.success(request,'You are registered')
+                return render(request,'register.html')
+
+        else:
+            messages.success(request, 'Password do not match')
+            return render(request,'register.html')
+
+    return render(request,'register.html')
 
 
