@@ -85,3 +85,19 @@ def signup(request):
     return render(request,'register.html')
 
 
+def cart(request,slug):
+    username = request.user.username
+    quantity = 1
+    checkout = False
+    data =Cart.objects.create(
+        user=username,
+        quantity= quantity,
+        checkout=checkout,
+    )
+
+    data.save()
+    return  redirect('/')
+
+
+
+

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -46,7 +47,7 @@ class Items(models.Model):
     short_description = models.TextField(blank=True)
     description = models.TextField(blank=True)
     stock =models.CharField(max_length=50,choices=STOCK)
-    image = models.TextField()
+    image = models.ImageField(upload_to='media')
     labels = models.CharField(max_length=300, choices=LABELS,blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, default=1)
@@ -57,6 +58,9 @@ class Items(models.Model):
         return self.title
 
     def get_item_url(self):
+        return reverse("home:product",kwargs={'slug':self.slug})
+
+    def add_to_cart(self):
         return reverse("home:product",kwargs={'slug':self.slug})
 
 
@@ -87,3 +91,20 @@ class Contact(models.Model):
 
     def __str__(self):
         return  self.email
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    slug=models.CharField(max_length=300)
+    quantity=models.IntegerField(default=1)
+    checkout = models.BooleanField(default=False)
+
+    def __str__(self):
+        return  self.user.username
+
+    def remove_one_item(self):
+        return reverse("home:remove-one-item",kwargs={'slug':self.slug})
+
+    def remove_all_item(self):
+        return reverse("home:remove-all-item", kwargs={'slug': self.slug})
+
