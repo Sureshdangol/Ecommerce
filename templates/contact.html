@@ -48,7 +48,8 @@
 						</ul>
 						<div class="resp-tabs-container hor_1">
 							<div>
-								<form action="#" method="post">
+								<form action="{% url 'home:contact_action %}" method="post">
+									{% csrf_token %}
 									<input type="text" value="Name" name="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
 									<input type="email" value="Email" name="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
 									<textarea name="Message..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>

@@ -1,6 +1,9 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
 from django.shortcuts import render,redirect
+import random
 
 
 from django.views.generic import View, DetailView
@@ -85,19 +88,73 @@ def signup(request):
     return render(request,'register.html')
 
 
+@login_required
 def cart(request,slug):
-    username = request.user.username
-    quantity = 1
-    checkout = False
-    data =Cart.objects.create(
-        user=username,
-        quantity= quantity,
-        checkout=checkout,
-    )
+    if Cart.objects.filter(slug =slug).exists():
+        quantity = Cart.objects.get(slug =slug).quantity
+        quantity = quantity+1
+        Cart.objects.filter(slug=slug).update(quantity=quantity)
+    else:
+        username = request.user
+        data = Cart.objects.create(
+            user = username,
+            slug = slug
+        )
+        data.save()
+    return redirect('home:mycart')
 
-    data.save()
-    return  redirect('/')
+def deletecart(request,slug):
+    if Cart.objects.filter(slug =slug).exists():
+        Cart.objects.filter(slug=slug).delete()
+    return redirect('home:mycart')
+
+def removecart(request,slug):
+    if Cart.objects.filter(slug =slug).exists():
+        quantity = Cart.objects.get(slug =slug).quantity
+        quantity = quantity-1
+        Cart.objects.filter(slug=slug).update(quantity=quantity)
+    return redirect('home:mycart')
 
 
+class CartView(BaseView):
+   def get(self,request):
+       self.view['slugs'] = Cart.objects.filter(checkout = False,user=request.user)
+       # self.view['cart_items'] = Item.objects.all()
+       return render(request, 'cart.html',self.view)
 
 
+class ContactView(BaseView):
+    def get(self,request):
+
+        return  render(request,'contact.html',self.view)
+
+def contact_action(request):
+    if request.method == "POST":
+        name = request.POST['Name']
+        email = request.POST['Email']
+        message = request.POST['Message']
+        contact_id = random.randint(0,999999)
+
+
+        data= Contact.objects.create(
+            name=name,
+            email=email,
+            message= message,
+            contact_id= contact_id,
+
+
+        )
+
+        data.save()
+        send_email = EmailMessage(
+        'Contact your Store',
+        f'hello admin {name} is trying to contact .His mail is {email}. His message is {message}',email,'sureshdgl100@gmail.com',
+        )
+        send_email.send()
+        message.sucess(request,'Mail has been Sent')
+        return  redirect('home:contact')
+
+
+#msg = EmailMessage(subject,html,content,from_email, [to])
+#msg.content_subtye ="html"
+#msg.send()

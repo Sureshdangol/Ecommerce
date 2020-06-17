@@ -23,7 +23,5 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls',)),#for login using django inbuilt
     path('admin/', admin.site.urls),
 ]
-
-
-if settings.DEDUG:
+if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root =settings.MEDIA_ROOT)
