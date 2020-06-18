@@ -7,9 +7,14 @@ import random
 
 
 from django.views.generic import View, DetailView
+from rest_framework import viewsets
+
 from .models import *  #import all models classes with * sign
 
 # Create your views here.
+from .serializers import ItemSerializers, CategorySerializers, SubcategorySerializers
+
+
 class BaseView(View):
     view={}
 
@@ -158,3 +163,18 @@ def contact_action(request):
 #msg = EmailMessage(subject,html,content,from_email, [to])
 #msg.content_subtye ="html"
 #msg.send()
+
+#API Section
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Items.objects.all()
+    serializer_class = ItemSerializers
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializers
+
+
+class SubCategoryViewSet(viewsets.ModelViewSet):
+    queryset = Subcategory.objects.all()
+    serializer_class = SubcategorySerializers
