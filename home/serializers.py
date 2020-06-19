@@ -5,7 +5,7 @@ from rest_framework import serializers
 
 class CategorySerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Items
+        model = Subcategory
         fields = ['title','description','slug','image','label']
 
 

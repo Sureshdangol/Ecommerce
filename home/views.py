@@ -1,3 +1,4 @@
+import generics as generics
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -7,7 +8,9 @@ import random
 
 
 from django.views.generic import View, DetailView
+from django_filters.rest_framework import DjangoFilterBackend, OrderingFilter
 from rest_framework import viewsets
+from rest_framework.filters import SearchFilter
 
 from .models import *  #import all models classes with * sign
 
@@ -178,3 +181,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class SubCategoryViewSet(viewsets.ModelViewSet):
     queryset = Subcategory.objects.all()
     serializer_class = SubcategorySerializers
+
+
+class ItemFilterListView(generics.ListAPIView):
+    queryset = Items.objects.all()
+    serializers_class= Items
+
+    filter_backends= (DjangoFilterBackend,OrderingFilter,SearchFilter)
+    filter_fields =['id','title','price','labels','category','subcategory']
+    ordering_fileds=['price','title','id']
+    search_fields = ['title','description','short_description']

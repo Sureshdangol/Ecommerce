@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from home.views import ItemViewSet,CategoryViewSet,SubCategoryViewSet
+from home.views import ItemViewSet, CategoryViewSet, SubCategoryViewSet, ItemFilterListView
 from django.urls import  path,include
 
 router = routers.DefaultRouter()
@@ -11,4 +11,5 @@ router.register('subcategory',SubCategoryViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),
+    path('item',ItemFilterListView.as_view(),name='item')
 ]
