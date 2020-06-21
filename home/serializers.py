@@ -8,6 +8,10 @@ class CategorySerializers(serializers.HyperlinkedModelSerializer):
         model = Subcategory
         fields = ['title','description','slug','image','label']
 
+class SubcategorySerializers(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Subcategory
+        fields = ['title','description','slug','image','label','category','status']
 
 
 class ItemSerializers(serializers.HyperlinkedModelSerializer):

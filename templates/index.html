@@ -49,7 +49,7 @@
 							<div class="col-md-3 m-wthree">
 								<div class="col-m">								
 									<a href="#" data-toggle="modal" data-target="#myModal1" class="offer-img">
-										<img src="{{item.image}}" class="img-responsive" alt="">
+										<img src="{{item.image.url}}" class="img-responsive" alt="">
 										<div class="offer"><p><span>Offer</span></p></div>
 									</a>
 									<div class="mid-1">
@@ -68,7 +68,8 @@
 											<div class="clearfix"></div>
 										</div>
 										<div class="add">
-										   <button class="btn btn-danger my-cart-btn my-cart-b " data-id="1" data-name="Moong" data-summary="summary 1" data-price="1.50" data-quantity="1" data-image="images/of.png">Add to Cart</button>
+											<a href = "{{item.add_to_cart}}">
+										   <button class="btn btn-danger my-cart-btn my-cart-b ">Add Cart</button>
 										</div>
 										
 									</div>

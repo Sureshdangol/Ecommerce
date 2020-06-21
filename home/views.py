@@ -1,4 +1,3 @@
-import generics as generics
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -9,14 +8,14 @@ import random
 
 from django.views.generic import View, DetailView
 from django_filters.rest_framework import DjangoFilterBackend, OrderingFilter
-from rest_framework import viewsets
-from rest_framework.filters import SearchFilter
+from rest_framework import viewsets,generics
+from rest_framework.filters import SearchFilter,OrderingFilter
 
-from .models import *  #import all models classes with * sign
+  #import all models classes with * sign
 
 # Create your views here.
-from .serializers import ItemSerializers, CategorySerializers, SubcategorySerializers
-
+from home.serializers import ItemSerializers, CategorySerializers, SubcategorySerializers
+from .models import *
 
 class BaseView(View):
     view={}

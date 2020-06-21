@@ -61,7 +61,7 @@ class Items(models.Model):
         return reverse("home:product",kwargs={'slug':self.slug})
 
     def add_to_cart(self):
-        return reverse("home:product",kwargs={'slug':self.slug})
+        return reverse("home:cart",kwargs={'slug':self.slug})
 
 
 class slider(models.Model):

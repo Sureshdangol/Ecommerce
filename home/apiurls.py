@@ -11,5 +11,5 @@ router.register('subcategory',SubCategoryViewSet)
 
 urlpatterns = [
     path('',include(router.urls)),
-    path('item',ItemFilterListView.as_view(),name='item')
+    path('filteritem/',ItemFilterListView.as_view(),name='filteritem')
 ]

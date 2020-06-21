@@ -19,10 +19,11 @@ from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', include('home.urls', namespace='home')),
     path('accounts/', include('django.contrib.auth.urls',)),#for login using django inbuilt
-    path('admin/', admin.site.urls),
-    path('api/', include('home.api_urls'))
+  
+    path('api/',include('home.apiurls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root =settings.MEDIA_ROOT)
